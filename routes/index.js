@@ -21,15 +21,18 @@ function computeQuery (query) {
   return queryObj
 }
 
+let browser = null
 router.get('/', async (ctx, next) => {
+  if (!browser) {
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    })
+  }
   let timer = new Date().valueOf()
   let requestUrl = ctx.query.src || ''
   let query = computeQuery(ctx.query)
   console.log(query)
 
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  })
   console.log(`打开浏览器：${new Date().valueOf() - timer} ms`)
   const page = await browser.newPage()
   // 设置viewport
@@ -40,7 +43,11 @@ router.get('/', async (ctx, next) => {
   let buffer = await page.screenshot(query)
   console.log(`截图：${new Date().valueOf() - timer} ms`)
 
-  await browser.close()
+  browser.pages().then(async (pages) => {
+    console.log(pages.length)
+    await page.close()
+  })
+  // console.log(`当前标签数量：${browser.pages().length}`)
   ctx.res.writeHead(200, {
     'Content-Type': types[query.type],
     'Content-Length': buffer.length

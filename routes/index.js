@@ -43,10 +43,7 @@ router.get('/', async (ctx, next) => {
   let buffer = await page.screenshot(query)
   console.log(`截图：${new Date().valueOf() - timer} ms`)
 
-  browser.pages().then(async (pages) => {
-    console.log(pages.length)
-    await page.close()
-  })
+  await page.close()
   // console.log(`当前标签数量：${browser.pages().length}`)
   ctx.res.writeHead(200, {
     'Content-Type': types[query.type],

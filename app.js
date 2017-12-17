@@ -8,6 +8,7 @@ const logger = require('koa-logger');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const puzzle = require('./routes/puzzle');
 
 // error handler
 onerror(app);
@@ -33,5 +34,6 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
+app.use(puzzle.routes(), puzzle.allowedMethods());
 
 module.exports = app;

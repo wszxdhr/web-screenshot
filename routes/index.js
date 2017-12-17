@@ -22,7 +22,7 @@ function computeQuery (query) {
 }
 
 let browser = null
-router.get('/', async (ctx, next) => {
+router.get('/screenshot', async (ctx, next) => {
   if (!browser) {
     browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox']

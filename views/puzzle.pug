@@ -1,4 +1,5 @@
 extends layout
 
 block content
-    h1 welcome
+    script var elements = #{elements};
+    script(type='text/javascript', src='/javascript/puzzle/puzzle.js')

@@ -4,6 +4,11 @@ body, html, p {
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif, "Apple Color Emoji", "AppleColorEmoji", AppleColorEmoji;
 }
 
+@font-face {
+    font-family: AppleColorEmoji;
+    src: url("./fonts/appleEmoji.ttf");
+}
+
 a {
     color: #00B7FF;
 }

@@ -22,7 +22,9 @@ router.get('/puzzle/:id', async (ctx, next) => {
 router.post('/puzzle', async (ctx, next) => {
   let timer = new Date().valueOf()
   let filename = `/files/puzzles/${md5(ctx.request.body + timer)}.png`
+  let jsonFile = `/files/temp/${md5(ctx.request.body + timer)}.json`
   let html = pug.renderFile('views/puzzle.pug', ctx.request.body)
+  fs.writeFile(jsonFile, ctx.request.body)
 
   console.log(`打开浏览器：${new Date().valueOf() - timer} ms`)
   const page = await browser.newPage()

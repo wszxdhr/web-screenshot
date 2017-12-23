@@ -20,9 +20,9 @@ router.get('/puzzle/:id', async (ctx, next) => {
 })
 
 router.post('/puzzle', async (ctx, next) => {
-  let filename = `/files/puzzles/${md5(ctx.request.body)}.png`
-  let html = pug.renderFile('views/puzzle.pug', ctx.request.body)
   let timer = new Date().valueOf()
+  let filename = `/files/puzzles/${md5(ctx.request.body + timer)}.png`
+  let html = pug.renderFile('views/puzzle.pug', ctx.request.body)
 
   console.log(`打开浏览器：${new Date().valueOf() - timer} ms`)
   const page = await browser.newPage()

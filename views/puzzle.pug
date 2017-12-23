@@ -1,5 +1,5 @@
 extends layout
+include puzzleElement.pug
 
 block content
-    script var elements = #{elements};
-    script(type='text/javascript', src='/javascript/puzzle/puzzle.js')
+    +child(elements)

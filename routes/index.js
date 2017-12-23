@@ -1,6 +1,11 @@
 const router = require('koa-router')()
-const puppeteer = require('puppeteer')
 const types = require('../config').types
+let browser = null;
+
+require('../modules/puppeter')().then(b => {
+  browser = b
+})
+
 
 function computeQuery (query) {
   let queryObj = {}
@@ -21,13 +26,12 @@ function computeQuery (query) {
   return queryObj
 }
 
-let browser = null
 router.get('/screenshot', async (ctx, next) => {
-  if (!browser) {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    })
-  }
+  // if (!browser) {
+  //   browser = await puppeteer.launch({
+  //     args: ['--no-sandbox', '--disable-setuid-sandbox']
+  //   })
+  // }
   let timer = new Date().valueOf()
   let requestUrl = ctx.query.src || ''
   let query = computeQuery(ctx.query)

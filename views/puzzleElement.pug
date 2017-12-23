@@ -3,7 +3,6 @@ mixin child(elements)
     each element, i in elements
         #{element.tag}(
         class=element.className
-        class=element.attr.class
         src=element.attr.src
         style=element.attr.style)
             != element.innerHTML

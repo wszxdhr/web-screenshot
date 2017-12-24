@@ -26,8 +26,8 @@ router.post('/puzzle', async (ctx, next) => {
   let jsonFile = `/files/temp/${puzzleId}.json`
   let htmlFile = `/files/temp/${puzzleId}.html`
   let html = pug.renderFile('views/puzzle.pug', ctx.request.body)
-  fs.writeFile(path.join(__dirname, '../public', jsonFile), JSON.stringify(ctx.request.body))
-  fs.writeFile(path.join(__dirname, '../public', htmlFile), html)
+  fs.writeFileSync(path.join(__dirname, '../public', jsonFile), JSON.stringify(ctx.request.body))
+  fs.writeFileSync(path.join(__dirname, '../public', htmlFile), html)
 
   console.log(`打开浏览器：${new Date().valueOf() - timer} ms`)
   const page = await browser.newPage()

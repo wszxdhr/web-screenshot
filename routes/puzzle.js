@@ -21,27 +21,28 @@ router.get('/puzzle/:id', async (ctx, next) => {
 
 router.post('/puzzle', async (ctx, next) => {
   let timer = new Date().valueOf()
-  let filename = `/files/puzzles/${md5(ctx.request.body + timer)}.png`
-  let jsonFile = `/files/temp/${md5(ctx.request.body + timer)}.json`
+  let puzzleId = md5(ctx.request.body + timer)
+  let filename = `/files/puzzles/${puzzleId}.png`
+  let jsonFile = `/files/temp/${puzzleId}.json`
   let html = pug.renderFile('views/puzzle.pug', ctx.request.body)
   fs.writeFile(path.join(__dirname, '../public', jsonFile), JSON.stringify(ctx.request.body))
 
   console.log(`打开浏览器：${new Date().valueOf() - timer} ms`)
   const page = await browser.newPage()
   // 设置viewport
-  await page.setViewport({width: 1920, height: 1})
+  await page.setViewport({width: 1920, height: 20})
   console.log(`打开标签：${new Date().valueOf() - timer} ms`)
   await page.setContent(html)
   console.log(`打开网页：${new Date().valueOf() - timer} ms （${filename}）`)
   await page.screenshot({
     path: path.join(__dirname, '../public', filename),
     fullPage: true,
-    omitBackground: true
+    omitBackground: false
   })
   console.log(`截图：${new Date().valueOf() - timer} ms`)
 
   await page.close()
-  ctx.body = {id: filename, url: `http://screenshot.anymelon.com/puzzle`, status: 0}
+  ctx.body = {filename: filename, host: `http://screenshot.anymelon.com`, status: 0}
 })
 
 module.exports = router

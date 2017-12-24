@@ -5,10 +5,12 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
+const koaBody = require('koa-body');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const puzzle = require('./routes/puzzle');
+const upload = require('./routes/upload');
 
 // error handler
 onerror(app);
@@ -35,5 +37,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 app.use(puzzle.routes(), puzzle.allowedMethods());
+app.use(upload.routes(), upload.allowedMethods());
+// app.use(upload.routes());
 
 module.exports = app;

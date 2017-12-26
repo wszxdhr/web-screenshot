@@ -1,7 +1,6 @@
 let fs = require('fs')
 let path = require('path')
 let qiniu = require('qiniu')
-let QiniuUPToken = require('qiniu-uptoken')
 let Keys = require('../qiniuConfig')
 const router = require('koa-router')()
 
@@ -22,8 +21,15 @@ router.post('/upload', (ctx) => {
 
 router.post('/uptoken', async (ctx) => {
   let resBody = ctx.request.body
+  let option = {
+    scope: resBody.bucket,
+    returnBody: '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)"}'
+  }
+  let mac = new qiniu.auth.digest.Mac(Keys.AK, Keys.SK);
+  let putPolicy = new qiniu.rs.PutPolicy(option);
+  let uploadToken = putPolicy.uploadToken(mac);
   ctx.body = {
-    uptoken: QiniuUPToken(Keys.AK, Keys.SK, resBody.bucket),
+    uptoken: uploadToken,
     key: resBody.key
   }
 })

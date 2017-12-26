@@ -1,5 +1,8 @@
 let fs = require('fs')
 let path = require('path')
+let qiniu = require('qiniu')
+let QiniuUPToken = require('qiniu-uptoken')
+let Keys = require('../qiniuConfig')
 const router = require('koa-router')()
 
 router.post('/upload', (ctx) => {
@@ -16,5 +19,13 @@ router.post('/upload', (ctx) => {
     fs.createReadStream(tmpath).pipe(stream);//可读流通过管道写入可写流
   }
 )
+
+router.post('/uptoken', async (ctx) => {
+  let resBody = ctx.request.body
+  ctx.body = {
+    uptoken: QiniuUPToken(Keys.AK, Keys.SK, resBody.bucket),
+    key: resBody.key
+  }
+})
 
 module.exports = router

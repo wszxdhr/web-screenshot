@@ -2,3 +2,4 @@ node_modules
 .idea
 .DS_Store
 qiniuConfig.js
+sqlConfig.js

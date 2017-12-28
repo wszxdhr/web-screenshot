@@ -1,4 +1,0 @@
-module.exports = {
-  AK: '',
-  SK: ''
-}

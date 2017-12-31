@@ -138,6 +138,30 @@ router.get('/puzzle/model/item', async (ctx) => {
   }
 })
 
+// 查询模板，FIXME: 需要优化
+router.get('/puzzle/model/list', async (ctx) => {
+  let wherestr = {} || ctx.request.body
+  let findResult = await Model.find(wherestr)
+  if (findResult) {
+    if (findResult.length) {
+      ctx.body = {
+        status: 0,
+        data: findResult
+      }
+    } else {
+      ctx.body = {
+        msg: '模板不存在',
+        status: 1
+      }
+    }
+  } else {
+    ctx.body = {
+      msg: '模板不存在',
+      status: 1
+    }
+  }
+})
+
 // 删除模板
 router.post('/puzzle/model/delete', async (ctx) => {
   let wherestr = {}
